@@ -14,10 +14,10 @@ public final class Cidade {
     @Min(0)
     private Long id = 0L;
 
-    @NotBlank
-    @NotEmpty(message = "{name.notempty}")
-    @NotNull
-    @Size(min = 2, max = 50)
+    @NotBlank(message = "{app.name.notempty}")
+    @NotEmpty(message = "{app.name.notempty}")
+    @NotNull(message = "{app.name.notempty}")
+    @Size(min = 2, max = 50, message = "{app.name.notempty}")
     private final String name;
 
     @NotNull

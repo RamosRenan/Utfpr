@@ -18,7 +18,7 @@ public class CrudCidadesApplication {
 	public MessageSource messageSource()
 	{
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:/messages/*");
+		messageSource.setBasename("classpath:/messages/validator/form/cidade/messages_form_cidade");
 		messageSource.setDefaultEncoding("UTF-8");
 
 		return messageSource;

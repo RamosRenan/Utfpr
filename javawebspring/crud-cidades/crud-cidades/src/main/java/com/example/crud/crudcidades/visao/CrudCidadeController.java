@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -76,9 +77,11 @@ public class CrudCidadeController {
     {
         if(bindResult.hasErrors())
         {
+            List<ObjectError> objerrors = bindResult.getAllErrors();
             List<FieldError> errors = bindResult.getFieldErrors();
             FieldError fieldError = errors.get(0);
             bindToPage.addAttribute("nameError", fieldError.getField());
+            bindToPage.addAttribute("nameErrorMessage", objerrors.get(0).getDefaultMessage());
             return "crud";
         }
         if(hashMapPageVariables.get("listaCidades") instanceof HashSet)

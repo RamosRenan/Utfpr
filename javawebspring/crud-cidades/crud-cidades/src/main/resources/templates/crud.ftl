@@ -29,7 +29,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <input type="text" name="name" placeholder="informe o nome da cidade" id="name" value="">
                     </div>
                     <#if nameError??>
-                        <label>teste de eero</label>
+                        <label>${nameErrorMessage}</label>
                     </#if>
 
                     <div class="form-group">
