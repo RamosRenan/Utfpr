@@ -1,9 +1,27 @@
 package com.example.crud.crudcidades.visao;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.lang.NonNull;
+
 public final class Cidade {
 
-    private long id;
+    @NonNull()
+    @Min(0)
+    private Long id = 0L;
+
+    @NotBlank
+    @NotEmpty(message = "{name.notempty}")
+    @NotNull
+    @Size(min = 2, max = 50)
     private final String name;
+
+    @NotNull
+    @NotEmpty
     private final String state;
 
     // valores provisorios para os campos do form
@@ -39,12 +57,12 @@ public final class Cidade {
         return this.stateEx;
     }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }

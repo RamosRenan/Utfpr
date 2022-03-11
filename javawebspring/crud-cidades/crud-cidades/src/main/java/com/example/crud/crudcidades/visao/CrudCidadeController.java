@@ -4,18 +4,20 @@ package com.example.crud.crudcidades.visao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 // import java.util.EnumSet;
 // import java.util.Set;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -30,7 +32,7 @@ import org.springframework.ui.Model;
 public class CrudCidadeController {
 
     // id each city
-    private static long id;
+    private static Long id = 0L;
 
     // volatil store 
     private static HashSet<Cidade> cidadesHashSet;
@@ -69,9 +71,27 @@ public class CrudCidadeController {
     }
 
     @PostMapping("/insert/cidade")
-    public String insert(Cidade cidade)
+    @SuppressWarnings(value = "unchecked")
+    public String insert(@Valid Cidade cidade, BindingResult bindResult, Model bindToPage)
     {
-        cidade.setId(CrudCidadeController.id++);
+        if(bindResult.hasErrors())
+        {
+            List<FieldError> errors = bindResult.getFieldErrors();
+            FieldError fieldError = errors.get(0);
+            bindToPage.addAttribute("nameError", fieldError.getField());
+            return "crud";
+        }
+        if(hashMapPageVariables.get("listaCidades") instanceof HashSet)
+        {
+            HashSet<Cidade> existCity = ( HashSet<Cidade>) hashMapPageVariables.get("listaCidades");
+
+            boolean verifyExistCity = existCity.stream().filter(c -> c.getId().equals(cidade.getId())).findAny().isPresent();
+            if(verifyExistCity)
+                update(cidade, existCity);
+        }
+
+        cidade.setId(id++);
+
         cidadesHashSet.add(cidade);
         
         hashMapPageVariables.put("listaCidades", cidadesHashSet);
@@ -79,11 +99,20 @@ public class CrudCidadeController {
     
         return "redirect:/";
     }
+
+
+    private void update(Cidade cidade, HashSet<Cidade> cidades)
+    {
+       Optional<Cidade> cc = cidades.stream().filter(c -> c.getId().equals(cidade.getId())).findAny();
+
+       cidades.remove(cc.orElseThrow(null));
+       cidades.add(cidade);
+    }
     
     //@GetMapping("/ex/list")
     private void listar()
     {
-        Cidade cidade = new Cidade("<small>Ex.: cidade</small>", "<small>Ex.: estado</small>", null, null);
+        Cidade cidade = new Cidade("Ex.: cidade", "Ex.: estado", null, null);
         List<Cidade> listCidade = new ArrayList<Cidade>();
         listCidade.add(cidade);
 
