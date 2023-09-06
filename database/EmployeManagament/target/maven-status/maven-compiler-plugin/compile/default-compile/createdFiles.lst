@@ -1,0 +1,6 @@
+com\utfpr\db\task8\service\DepFuncService.class
+com\utfpr\db\task8\entity\Departamento.class
+com\utfpr\db\task8\repository\DepFuncRepository.class
+com\utfpr\db\task8\App.class
+com\utfpr\db\task8\entity\Funcionario.class
+com\utfpr\db\task8\entity\DepFunc.class
